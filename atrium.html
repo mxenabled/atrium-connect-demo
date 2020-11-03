@@ -96,16 +96,24 @@
      */
     window.addEventListener('message', function (event) {
       try {
-        // versions null -> 3 **Deprecated**
+        /**
+         * Versions null -> 3. These versions are deprecated. They JSON encode
+         * the `data` attribute so you must wrap in this in a try catch to try
+         * to get the data.
+         */
         const data = JSON.parse(event.data);
 
         if (data.moneyDesktop) {
-          console.log(data);
+          console.log('versions null -> 3', data);
         }
       } catch (error) {
-        // version 4
+        /**
+         * Versions 4 and on no longer JSON encode the data attribute. It should
+         * be immediately accessible. If there is a data.mx attribute that is
+         * `true` then this is a version 4 message at this point.
+         */
         if (event.data.mx) {
-          console.log(event.data);
+          console.log('version 4 message', event.data);
         }
       }
     });
